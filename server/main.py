@@ -7,4 +7,6 @@ PORT = 7890
 
 if __name__ == "__main__":
     server = Host(PORT) 
-    asyncio.run(server.start())
+    async def grupa():
+        await asyncio.gather(server.start(),server.read_cli_inputs())
+    asyncio.run(grupa())

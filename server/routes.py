@@ -3,6 +3,7 @@ import websockets
 import json
 from game.game import Game
 from logger import logger
+import asyncio
 
 
 class RoutesRegistry:
@@ -33,10 +34,9 @@ async def access(server, message, websocket, game: Game):
         user_websocket = server.clients[rf_id]
         user_game = game.users.get(rf_id)
         response = message_builder(
-            localization=message.get("localization"), type="access",points=user_game.go_somewhere_points
+            action_message="dostales 5 pkt\n Dolacz na kawe", type="action_confirmed",action_points="5"
         )
         await user_websocket.send(response)
-        user_game.go_somewhere_points = 0
     except KeyError:
         await websocket.send("Nie ma usera powiazanego z tym tagiem")
 
@@ -48,7 +48,7 @@ async def init(server, message, websocket, game: Game):
         name = message.get("name")
         points = message.get("points")
         outfit = message.get("outfit")
-
+        
         server.clients[rf_id] = websocket
         if rf_id not in game.users.keys():
             game.add_user(rf_id, name, points, outfit)
@@ -75,6 +75,24 @@ async def get_users(server,message,websocket,game):
     await websocket.send(response)
 
 
+
+@RoutesRegistry.reg_route
+async def outfit(server,message,websocket,game):
+    user_websocket=server.clients["ffb24848"]
+    response = message_builder(data=message.get("data"), type="outfit", outfit=message.get('outfit'))
+    await user_websocket.send(response)
+    await get_users(server,message,websocket,game)
+
+
+
+
+@RoutesRegistry.reg_route
+async def football(server,message,websocket,game):
+    user_websocket=server.clients["ffb24848"]
+    response = message_builder(data=message.get("data"), type="football")
+    await user_websocket.send(response)
+    
+    
 def message_builder(**kwargs):
     message = json.dumps(kwargs)
     return message

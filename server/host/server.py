@@ -5,7 +5,7 @@ import json
 from routes import RoutesRegistry
 from logger import logger
 from typing import Any
-
+import aioconsole
 from game.game import Game
 
 @dataclass
@@ -30,5 +30,19 @@ class Host:
     async def start(self)->None:
         async with websockets.serve(self.handler, "", self.port,ping_interval=20, ping_timeout=10):
             logger.info(f"server started on port {self.port}")
-            await asyncio.Future()  
-        
+            await asyncio.Future() 
+            
+    async def read_cli_inputs(self)->None:
+        while True:
+            line = await aioconsole.ainput('Is this your line? ')
+            match line:
+                case "1":
+                    await self.clients["ffb24848"].send(message_builder(type="football",data="Gramy w pile"))
+                case "2":
+                    await self.clients["ffb24848"].send(message_builder(type="outfit",outfit=1,data="nowe ciuszki"))
+                    
+
+
+def message_builder(**kwargs):
+    message = json.dumps(kwargs)
+    return message

@@ -12,7 +12,8 @@ import {
   Tooltip,
   ChipProps,
   getKeyValue,
-  Image
+  Image,
+  Button
 } from '@nextui-org/react'
 import { EditIcon } from './EditIcon.jsx'
 import { DeleteIcon } from './DeleteIcon.jsx'
@@ -46,9 +47,12 @@ export default function App () {
   const [clients, setClients] = React.useState([
  
   ])
+  const [socket,setSocket] = React.useState()
 
   React.useEffect(() => {
-    const socket = new WebSocket('ws://localhost:7890/') // Connect to your server
+    const socket = new WebSocket('ws://localhost:7890/') 
+    setSocket(socket)
+    // Connect to your server
     socket.onopen = event => {
       socket.send(JSON.stringify({ type: 'get_users' }))
     }
@@ -120,22 +124,22 @@ export default function App () {
           return (
             <div className='relative flex items-center gap-2'>
               <Tooltip content='Wyzwij na mecz w piłkarzyki'>
-                <span className='text-lg text-default-400 cursor-pointer active:opacity-50'>
+                <Button className='text-lg text-default-400 cursor-pointer active:opacity-50' isIconOnly onPress={()=>{socket.send(JSON.stringify({ type: 'football',data:"Szymon wyzywa \ncie na mecz"}))}}>
                   <SportsSoccerIcon />
-                </span>
+                </Button>
               </Tooltip>
             </div>
           )
       default:
         return cellValue
     }
-  }, [clients])
+  }, [clients,socket])
 
   return (
     <div className={`${inter.variable} font-sans h-full`}>
     <Navbar/>
     <div className='grid grid-cols-5 grid-rows-5 w-full gap-5 p-10 max-h-[90%]'>
-      <Soul/>
+      <Soul web_socket={socket}/>
       <div className='col-span-1 col-start-5 row-span-5'>
       <Table aria-label='Example table with custom cells' classNames={{
         "base":"h-full ",
