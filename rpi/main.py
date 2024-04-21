@@ -6,10 +6,12 @@ import adafruit_ssd1306
 from PIL import Image, ImageOps
 import RPi.GPIO as GPIO
 import threading
+import asyncio
 #TODO websocket
 
 from main_lcd import LCD_display
 from main_oled import OLED_disp
+from tamagoczi.websocket_client.client import connect_and_listen
 
 BUZZER_PIN = 19
 BUTTON_PIN = 26
@@ -42,10 +44,10 @@ def button_thread_handler():
     while True:
         if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
             if status == 0:
-                global_oled.change_image("arm.gif")
+                global_oled.change_image("rpi/arm.gif")
                 status = 1
                 GPIO.output(BUZZER_PIN, GPIO.HIGH)
-                global_lcd.display("Glaskanko :3")
+                global_lcd.display("Glaskanko UwU")
         else:
             if status == 1:
                 global_oled.return_to_prev_animation()
@@ -66,13 +68,20 @@ def main():
     animation_thr.start()
     button_thr.start()
 
-    sleep(10)
-    global_oled.change_image("sad.gif")
-    global_lcd.display("Some\nmsg") #TODO delete
+    global global_lcd
+    global global_oled
 
-    sleep(10)
-    global_oled.change_image("neutral.gif")
-    global_lcd.clear() #TODO delete
+    sleep(5)
+
+    asyncio.run(connect_and_listen(global_oled, global_lcd))
+
+    # sleep(10)
+    # global_oled.change_image("sad.gif")
+    # global_lcd.display("Some\nmsg") #TODO delete
+
+    # sleep(10)
+    # global_oled.change_image("neutral.gif")
+    # global_lcd.clear() #TODO delete
 
 
 

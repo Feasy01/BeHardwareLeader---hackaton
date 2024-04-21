@@ -24,10 +24,11 @@ class OLED_disp():
         self.frames = []
         self.current_img_name = None
         self.prev_img_name = None
-        self.change_image("smile.gif")
+        self.change_image("rpi/smile.gif")
 
     def change_image(self, image_file_name):
         image = Image.open(image_file_name, "r")
+        self.current_frame = 0
         self.frames = []
         for n in range(image.n_frames):
             image.seek(n)

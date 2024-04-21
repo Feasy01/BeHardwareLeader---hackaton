@@ -23,8 +23,7 @@ class LCD_display():
         self.lcd.clear()
         self.lcd.message = "Hello\nLeader"
         sleep(2)
-        self.lcd.clear()
-        self.prev_message = ""
+        self.clear()
 
     def display(self, message):
         if self.prev_message == message:
@@ -43,3 +42,4 @@ class LCD_display():
     def clear(self):
         self.prev_message = ""
         self.lcd.clear()
+        self.lcd.message = "Pamietaj,\ndbaj o siebie"
