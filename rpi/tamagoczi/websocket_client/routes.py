@@ -22,6 +22,10 @@ async def outfit(websockets,message,game:Game):
     await game.change_outfit(message.get("outfit"))
     await game.change_action(message.get("data"))
 
+@RoutesRegistry.reg_route
+async def action_confirmed(websockets,message,game:Game):
+    await game.action_confirmed(message.get("action_message"),message.get("action_points"))
+  
 
 @RoutesRegistry.reg_route
 async def error(websocket,message,game:Game):
