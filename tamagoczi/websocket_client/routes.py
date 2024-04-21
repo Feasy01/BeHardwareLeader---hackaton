@@ -14,13 +14,14 @@ class RoutesRegistry:
 
 @RoutesRegistry.reg_route
 async def football(websocket,message,game:Game):
-    game.change_mood(Moods.NOTIFICATION)
-    game.change_action(message.get("data"),message.get("points"))
+    await game.change_mood(Moods.FOOTBALL)
+    await game.change_action(message.get("data"))
     
 @RoutesRegistry.reg_route
 async def outfit(websockets,message,game:Game):
-    game.change_outfit(message.get("outfit"))
-    game.c
+    await game.change_outfit(message.get("outfit"))
+    await game.change_action(message.get("data"))
+
 
 @RoutesRegistry.reg_route
 async def error(websocket,message,game:Game):

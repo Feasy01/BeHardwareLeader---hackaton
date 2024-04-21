@@ -7,6 +7,7 @@ class Moods(Enum):
     DEFAULT = auto()
     SAD = auto()
     NOTIFICATION = auto()
+    FOOTBALL = auto()
 
 
 OUTFITS = [
@@ -15,12 +16,15 @@ OUTFITS = [
         Moods.DEFAULT: "src",
         Moods.SAD: "src",
         Moods.NOTIFICATION: "src",
+        Moods.FOOTBALL: "src",
+        
     },
     {
         Moods.HAPPY: "src",
         Moods.DEFAULT: "src",
         Moods.SAD: "src",
         Moods.NOTIFICATION: "src",
+        Moods.FOOTBALL: "src"
     }
 ]
 
