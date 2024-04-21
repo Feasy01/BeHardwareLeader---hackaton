@@ -62,7 +62,7 @@ class Game:
     async def action_confirmed(self,action_message,action_points):
         self.action = ""
         # callback to LCD here → display action message and points available
-        self.change_mood(Moods.HAPPY)
+        await self.change_mood(Moods.HAPPY)
         self.lcd_hook.display("Dostales punkty!")
         await asyncio.sleep(5)
         # clear LCD
