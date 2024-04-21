@@ -9,13 +9,24 @@ import {
   ButtonGroup
 } from '@nextui-org/react'
 import Zdjecie from './zdj/default.png'
+import Zdjecie2 from './zdj/default2.png'
+
 import { VT323 } from 'next/font/google'
 import Form from "./formularz"
 const inter = VT323({weight:"400",
   variable:"--font-vt323",
   subsets:["latin"]
 })
+
+
+const zdj = [Zdjecie,Zdjecie2]
+
+
+
 export default function Soul () {
+    const [zdjsrc,setZdjsrc] = React.useState(0)
+
+
   return (
     <div className={` ${inter.variable} font-sans col-span-2 col-start-2 row-start-1 row-span-2 h-full`}>
       <Card className='py-4 border-8 border-violet-400 rounded-none'>
@@ -37,12 +48,12 @@ export default function Soul () {
                 <Image
                   alt='Card background'
                   className='object-cover rounded-xl'
-                  src={Zdjecie.src}
+                  src={zdj[zdjsrc].src}
                   width={400}
                 />
                 <ButtonGroup>
-                  <Button className='text-3xl rounded-none'>{`<`}</Button>
-                  <Button className='text-3xl rounded-none'>{`>`}</Button>
+                  <Button className='text-3xl rounded-none' onPress={()=>{setZdjsrc(1)}}>{`1`}</Button>
+                  <Button className='text-3xl rounded-none' onPress={()=>{setZdjsrc(0)}}>{`2`}</Button>
                 </ButtonGroup>
               </CardBody>
             </Card>

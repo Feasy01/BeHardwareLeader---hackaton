@@ -2,7 +2,8 @@ import asyncio
 import websockets
 import json
 
-
+from routes import RoutesRegistry
+from ..tamagoczi.game import Game,Moods
 
 def test_callback(message):
     print(message)
@@ -15,7 +16,8 @@ callbacks = {
 
 
 async def connect_and_listen():
-    url = "wss://example.com/ws"  # Replace with your WebSocket server URL
+    url = "ws:///ws" 
+    game = Game("12345","Szymon Walczak",0,Moods.DEFAULT,"",100)
     async with websockets.connect(url) as websocket:
 
 
@@ -27,8 +29,8 @@ async def connect_and_listen():
                 print(message)
                 message_type = message.get("type") 
 
-                if message_type in callbacks:
-                    callbacks[message_type](message.get("data"))
+                if message_type in RoutesRegistry.handlers:
+                    callbacks[message_type](websocket,message)
                 else:
                     print(f"Unknown message type: {message_type}")
 

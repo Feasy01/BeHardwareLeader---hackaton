@@ -11,7 +11,8 @@ import {
   Chip,
   Tooltip,
   ChipProps,
-  getKeyValue
+  getKeyValue,
+  Image
 } from '@nextui-org/react'
 import { EditIcon } from './EditIcon.jsx'
 import { DeleteIcon } from './DeleteIcon.jsx'
@@ -20,7 +21,8 @@ import  Navbar from "./(views)/navabr"
 import Soul from "./(views)/yoursoul"
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import { VT323 } from "next/font/google";
-
+import Zdjecie from './(views)/zdj/default.png'
+import Zdjecie2 from './(views)/zdj/default2.png'
 import 'sockjs-client'
 const statusColorMap: Record<string, ChipProps['color']> = {
   active: 'success',
@@ -34,18 +36,15 @@ const columns = [
   { name: 'AKCJE', uid: 'actions' }
 
 ]
+const zdj = [Zdjecie,Zdjecie2]
+
 const inter = VT323({weight:"400",
   variable:"--font-vt323",
   subsets:["latin"]
 })
 export default function App () {
   const [clients, setClients] = React.useState([
-    {
-      rf_id: 1234,
-      name: 'TestUser',
-      outfit: 2,
-      points: 10
-    }
+ 
   ])
 
   React.useEffect(() => {
@@ -97,14 +96,13 @@ export default function App () {
         )
       case 'outfit':
         return (
-          <Chip
-            className='capitalize'
-            color={statusColorMap[user.status]}
-            size='lg'
-            variant='flat'
-          >
-            {cellValue}
-          </Chip>
+          
+          <Image
+          alt='Card background'
+          className='object-cover rounded-xl'
+          src={zdj[cellValue-1].src}
+          width={400}
+        />
         )
       case 'points':
         return (
@@ -131,7 +129,7 @@ export default function App () {
       default:
         return cellValue
     }
-  }, [])
+  }, [clients])
 
   return (
     <div className={`${inter.variable} font-sans h-full`}>
