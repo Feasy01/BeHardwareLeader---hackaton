@@ -51,7 +51,10 @@ class OLED_disp():
         self.current_frame += 1
         if self.current_frame >= len(self.frames):
             self.current_frame = 0
-        self.oled.image(self.frames[self.current_frame])
-        self.oled.show()
+        try:
+            self.oled.image(self.frames[self.current_frame])
+            self.oled.show()
+        except Exception as e:
+            print(e)
 
 
